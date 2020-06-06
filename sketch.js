@@ -1,8 +1,6 @@
 let cam;
-let camMotionDetection;
 
 let p;
-
 let poseNet;
 let pose;
 
@@ -21,9 +19,7 @@ function preload() {
 
 function setup() {
 	createCanvas(640, 360);
-	pixelDensity(1);
 
-	
 	cam = createCapture(VIDEO);
 	cam.size(width, height);
 	cam.hide();
@@ -36,28 +32,31 @@ function setup() {
 	pulsersCanvas = createGraphics(width,height);
 	pulsersCanvas.ellipse(100,100,10,10);
 	bodyPix.segment(cam, gotSegmentation)
-
 }
 
 function draw() {
+
 	image(cam,0,0);
+
 	pulsersCanvas.clear();
 	if (pose) {
 		p.location = createVector(pose.nose.x, pose.leftEye.y);
 		p.pulse(pulsersCanvas);
 	}
-
-	console.log(pulsersCanvas);
-
 	var pulsersImg = createImage(pulsersCanvas.width,pulsersCanvas.height);
 	if (mask != null) {
 		pulsersImg.copy(pulsersCanvas, 0, 0, pulsersCanvas.width, pulsersCanvas.height, 0, 0, pulsersCanvas.width, pulsersCanvas.height)
 		pulsersImg.mask(mask);
 		image(pulsersImg,0,0);	// <-- it's showing the pulsers here		
-	}
-	
+	} 
+
 
 	
+}
+
+function myDistSq(x1, y1, z1, x2, y2, z2) {
+	let d = (x2-x1)*(x2-x1) + (y2-y1)*(y2-y1) + (z2-z1)*(z2-z1);
+	return d;
 }
 
 function gotPoses(poses) {

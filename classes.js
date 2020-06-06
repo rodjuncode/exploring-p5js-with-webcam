@@ -14,7 +14,7 @@ const Pulser = (mR, a, v, nR, oP, c, i) => {
 
 	return Object.assign(
 		self,
-		WillPulse(self, 1.5)
+		WillPulse(self, 2.5)
 	)
 }
 

@@ -87,9 +87,9 @@ const WillPulse = (self, speed) => ({
 	grow: () => {
 		let pR = self.radius - (self.anchor.size/2*self.index);
 		if (pR <= self.maxRadius) { 
-			self.radius += speed; // keep growing based on anchor's velocity
+			self.radius += speed; // keep growing 
 		} else {
-			self.radius = (self.index-1)*self.anchor.size/2; // starts again, -radius
+			self.radius = (self.index-1)*self.anchor.size/2; // starts again
 		}
 	},
 	show: (where) => {
@@ -100,10 +100,9 @@ const WillPulse = (self, speed) => ({
 		where.translate(self.anchor.location.x, self.anchor.location.y);
 		where.noFill();
 		where.stroke(self.color);
-		//where.stroke(color(random(255),random(255),random(255),30));
 		where.strokeWeight(4);
 		where.beginShape();
-		for (let a = 0; a < TWO_PI; a += TWO_PI/self.vertex) {
+		for (let a = 0; a < TWO_PI-TWO_PI/self.vertex; a += TWO_PI/self.vertex) {
 			let _noise = noise(cos(a) + 1, sin(a) + 1, self.offSet);
 			let _offset = map(_noise, 0, 1, -self.radius/self.noiseRange, self.radius/self.noiseRange);
 			let _radius = self.radius - (self.anchor.size/2*self.index) + _offset;
