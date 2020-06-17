@@ -102,8 +102,14 @@ const WillPulse = (self, speed) => ({
 		where.stroke(self.color);
 		where.strokeWeight(4);
 		where.beginShape();
-		for (let a = 0; a < TWO_PI-TWO_PI/self.vertex; a += TWO_PI/self.vertex) {
-			let _noise = noise(cos(a) + 1, sin(a) + 1, self.offSet);
+		//for (let a = 0; a < TWO_PI-TWO_PI/self.vertex; a += TWO_PI/self.vertex) {
+		for (var a = -PI; a < PI; a += TWO_PI/self.vertex) {
+
+			var cosAngle = (a + (PI/2)); 
+		    if (cosAngle > PI) cosAngle -= TWO_PI;
+
+			//let _noise = noise(cos(a) + 1, sin(a) + 1, self.offSet);
+			var _noise = noise(fastSin(cosAngle) + 1, fastSin(a) + 1, self.offSet);
 			let _offset = map(_noise, 0, 1, -self.radius/self.noiseRange, self.radius/self.noiseRange);
 			let _radius = self.radius - (self.anchor.size/2*self.index) + _offset;
 			if (_radius > 0) {
@@ -142,3 +148,11 @@ const Rectangle = (self) => ({
 
 // behaviors sets
 const Particle = (self) => 	Object.assign({},WillMove(self),WillReact(self));
+
+// functions
+//fast sine approximation, only valid between -pi and pi
+function fastSin(angle) {
+	var B = 4 / PI;
+	var C = -4 / (PI*PI);
+	return -(B * angle + C *angle * ((angle < 0) ? -angle : angle));
+} 
