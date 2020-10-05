@@ -5,6 +5,7 @@ let poseNet;
 let pose;
 
 let pulsersCanvas;
+let pulsersImg;
 let segmentation;
 let mask;
 let bodyPix;
@@ -18,7 +19,7 @@ function preload() {
 }
 
 function setup() {
-	createCanvas(640, 360);
+	createCanvas(640, 480);
 
 	cam = createCapture(VIDEO);
 	cam.size(width, height);
@@ -30,7 +31,6 @@ function setup() {
 	poseNet.on('pose', gotPoses);
 
 	pulsersCanvas = createGraphics(width,height);
-	pulsersCanvas.ellipse(100,100,10,10);
 	bodyPix.segment(cam, gotSegmentation)
 }
 
@@ -43,7 +43,7 @@ function draw() {
 		p.location = createVector(pose.nose.x, pose.leftEye.y);
 		p.pulse(pulsersCanvas);
 	}
-	var pulsersImg = createImage(pulsersCanvas.width,pulsersCanvas.height);
+	pulsersImg = createImage(pulsersCanvas.width,pulsersCanvas.height); 
 	if (mask != null) {
 		pulsersImg.copy(pulsersCanvas, 0, 0, pulsersCanvas.width, pulsersCanvas.height, 0, 0, pulsersCanvas.width, pulsersCanvas.height)
 		pulsersImg.mask(mask);
